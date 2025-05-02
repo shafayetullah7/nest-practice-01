@@ -5,8 +5,19 @@ export class ZodValidationException extends HttpException {
   constructor(error: ZodError) {
     super(
       {
-        statusCode: HttpStatus.BAD_REQUEST,
+        status: HttpStatus.BAD_REQUEST,
         message: 'Validation Error',
+        description: error.errors.map((err) => {
+          // path: err.path.join('.'),
+          // code: err.code,
+          // message: err.message,
+          // data: `${
+          //   err.path.length > 0 ? err.path[err.path.length - 1] : 'unknown'
+          // }: ${err.message}`,
+          return `${
+            err.path.length > 0 ? err.path[err.path.length - 1] : 'unknown'
+          }: ${err.message}`;
+        }),
         errors: error.errors.map((err) => ({
           path: err.path.join('.'),
           code: err.code,

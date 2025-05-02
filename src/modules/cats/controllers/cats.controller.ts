@@ -15,6 +15,7 @@ export class CatsController {
   constructor(private catsService: CatsService) {}
 
   @Post()
+  // @UsePipes(new ZodValidationPipe()) // ← Validation happens here
   addCat(@Body() payload: CreateCatDto): Cat {
     const newCat = this.catsService.addCat(payload);
     return newCat;
@@ -27,7 +28,6 @@ export class CatsController {
 
   @Get(':id')
   getSingleCat(@Param('id', ParseIntPipe) id: number): Cat {
-    console.log(id);
     return this.catsService.getSingleCat(id);
   }
 }
